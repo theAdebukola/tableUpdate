@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>UpdatingTable</title>
+
+</head>
+<body>
+   <div class="d-grid">
+    <div >
+        <table id="table" class="table table-secondary text-primary">
+          
+         </table>
+    </div>
+
+   <div>
+        <input  class="form-group form-control-lg input-field w-50" type="text" placeholder="name" id="myName" oninput="handleName(this)"><br>
+    <input class="form-group form-control-lg input-field w-50" type="number" placeholder="age" id="myAge" oninput="handleAge(this)"><br>
+    <button class="form-group form-control-lg input-field w-50 btn btn-success" onclick="handleAdd()">ADD INFO</button>
+</div>
+   </div>
+</body>
+</body>
+</html>
+<script>
+    let name, age;
+    let i;
+    let studentInfo=[{name:"Taiwo",age: 13}, {name:"Eben",age:12}];
+    let table= document.getElementById('table');
+
+    function display(params) {
+        table.innerHTML="";
+        table.innerHTML+=`<th>S/N</th>
+        <th>NAME</th>
+        <th>AGE</th>
+        <th>ACTION</th>`
+    studentInfo.forEach((max, i)=>{
+        table.innerHTML+=`<tr>
+            <td>${i + 1}</td>
+            <td>${max.name}</td>
+            <td>${max.age}</td>
+            <td><button class="btn btn-danger" onclick="handleDelete(${i})">DELETE</button></td>
+            </tr>`;
+    })
+    }
+    display();
+    if(localStorage.getItem("updateTable")){
+        studentInfo= JSON.parse(localStorage.getItem("updateTable"));
+    }
+    else{
+        studentInfo = studentInfo;
+        localStorage.setItem("updateTable",JSON.stringify(studentInfo));
+    }
+
+    function handleDelete(params) {
+        studentInfo.splice(params,1);
+        localStorage.setItem("updateTable",JSON.stringify(studentInfo));
+
+        display();
+    }
+
+    function handleName(params) {
+        name=params.value;
+    }
+
+    function handleAge(params) {
+        age=params.value;
+    }
+
+    function handleAdd() {
+        studentInfo.push({name:name, age: age});
+        localStorage.setItem("updateTable",JSON.stringify(studentInfo));
+        display();
+    }
+</script>
